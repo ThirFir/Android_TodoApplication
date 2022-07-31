@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TodoAddActivity">
+
+    <EditText
+        android:id="@+id/edit_todo_name"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="224dp"
+        android:background="@null"
+        android:hint="Enter New TODO"
+        android:maxLength="19"
+        android:textSize="22sp"
+        android:fontFamily="@font/spoqa_han_sans_neo_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_save"
+        android:layout_width="295dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_save_background"
+        android:fontFamily="@font/spoqa_han_sans_neo_medium"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cancel"
+        android:layout_width="295dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="92dp"
+        android:background="@drawable/button_cancel_background"
+        android:fontFamily="@font/spoqa_han_sans_neo_medium"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_calendar"
+        android:layout_width="145dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/button_calendar_background"
+        android:drawableLeft="@drawable/calendar_icon"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/spoqa_han_sans_neo_medium"
+        android:text="Today"
+        android:textColor="@color/colorLessLightGray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_time"
+        app:layout_constraintHorizontal_bias="0.768"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_todo_detail" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_time"
+        android:layout_width="145dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/button_calendar_background"
+        android:drawableLeft="@drawable/clock_icon"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/spoqa_han_sans_neo_medium"
+        android:text="TIME"
+        android:textAllCaps="false"
+        android:textColor="@color/colorLessLightGray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_todo_detail" />
+
+    <EditText
+        android:id="@+id/edit_todo_detail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:background="@null"
+        android:hint="Enter Details"
+        android:textSize="18sp"
+        android:lines="1"
+        android:maxLines="1"
+        android:fontFamily="@font/spoqa_han_sans_neo_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_todo_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

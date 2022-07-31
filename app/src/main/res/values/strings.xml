@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Todo Manager</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="get_todo_tb">create table if not exists TODO_TB
+        (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        POS_FOR_DATE INTEGER NOT NULL,
+        NAME TEXT NOT NULL,
+        DETAILS TEXT,
+        YEAR INTEGER NOT NULL,
+        MONTH INTEGER NOT NULL,
+        DAY INTEGER NOT NULL,
+        HOURS INTEGER,
+        MINUTES INTEGER,
+        IS_TIME_SET BOOLEAN)</string>
+</resources>

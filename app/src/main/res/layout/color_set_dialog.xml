@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/todo_add_dialog_background"
+    android:orientation="vertical"
+    tools:context=".ColorSetDialog">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_red"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardRed" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_orange"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardOrange" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_yellow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardYellow" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_green"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardGreen" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_blue"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardBlue" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_navy"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardNavy" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_purple"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardPurple" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_mint"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardMint" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_brown"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardBrown" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/color_gray"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/color_dialog_colors_background"
+            android:backgroundTint="@color/cardGray" />
+
+    </LinearLayout>
+</LinearLayout>

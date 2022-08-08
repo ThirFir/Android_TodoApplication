@@ -4,13 +4,17 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import com.example.TodoManager.databinding.FragmentTodoBinding
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.calendar.CalendarViewManager
+import com.michalsvec.singlerowcalendar.calendar.SingleRowCalendar
 import com.michalsvec.singlerowcalendar.calendar.SingleRowCalendarAdapter
 import com.michalsvec.singlerowcalendar.selection.CalendarSelectionManager
 import com.michalsvec.singlerowcalendar.utils.DateUtils.getDay3LettersName
@@ -26,7 +30,7 @@ import java.util.Date
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("SetTextI18n")
+@SuppressLint("SetTextI18n", "NotifyDataSetChanged")
 class TodoFragment : Fragment() {
     private lateinit var fragmentTodoBinding : FragmentTodoBinding
     private var dateToday = LocalDate.now()
@@ -38,6 +42,8 @@ class TodoFragment : Fragment() {
     private var currentMonth = 0
     var selectedDate = CalendarDay.today().toDate()
 
+    lateinit var singleRowCalendar : SingleRowCalendar
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +52,7 @@ class TodoFragment : Fragment() {
         fragmentTodoBinding = FragmentTodoBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
+        (requireActivity() as MainActivity).todoDB.execSQL(resources.getString(R.string.get_todo_tb))
         (requireActivity() as MainActivity).cursor = (requireActivity() as MainActivity).todoDB.rawQuery("select * from TODO_TB", null)
         with((requireActivity() as MainActivity).cursor){
             while(moveToNext()) {
@@ -69,12 +76,12 @@ class TodoFragment : Fragment() {
             ): Int {
                 return if (isSelected) {
                     if (daysHavingTodo.contains(getDayNumber(date).toInt()))
-                        R.layout.selected_calendar_item_has_todo
+                        R.layout.selected_calendar_item
                     else
                         R.layout.selected_calendar_item
                 } else {
                     if (daysHavingTodo.contains(getDayNumber(date).toInt()))
-                        R.layout.calendar_item_has_todo
+                        R.layout.calendar_item
                     else
                         R.layout.calendar_item
                 }
@@ -83,6 +90,7 @@ class TodoFragment : Fragment() {
                 // in bindDataToCalendarView method
             }
 
+            @SuppressLint("ResourceType")
             override fun bindDataToCalendarView(
                 holder: SingleRowCalendarAdapter.CalendarViewHolder,
                 date: Date,
@@ -91,8 +99,28 @@ class TodoFragment : Fragment() {
             ) {
                 // using this method we can bind data to calendar view
                 // good practice is if all views in layout have same IDs in all item views
-                holder.itemView.findViewById<TextView>(R.id.tv_date_calendar_item).text = getDayNumber(date)
-                holder.itemView.findViewById<TextView>(R.id.tv_day_calendar_item).text = getDay3LettersName(date)
+                with(holder.itemView) {
+                    findViewById<TextView>(R.id.tv_date_calendar_item).text =
+                        getDayNumber(date)
+                    findViewById<TextView>(R.id.tv_day_calendar_item).text =
+                        getDay3LettersName(date)
+                    if (isSelected) {
+                        findViewById<LinearLayout>(R.id.cl_calendar_item)
+                            .setBackgroundResource(R.drawable.selected_calendar_item_background)
+                        if (daysHavingTodo.contains(getDayNumber(date).toInt()))
+                            findViewById<View>(R.id.green_dot).visibility = View.VISIBLE
+                        else
+                            findViewById<View>(R.id.green_dot).visibility = View.INVISIBLE
+                    } else {
+                        findViewById<LinearLayout>(R.id.cl_calendar_item)
+                            .setBackgroundResource(R.drawable.calendar_item_background)
+                        if (daysHavingTodo.contains(getDayNumber(date).toInt()))
+                            findViewById<View>(R.id.green_dot).visibility = View.VISIBLE
+                        else
+                            findViewById<View>(R.id.green_dot).visibility = View.INVISIBLE
+
+                    }
+                }
             }
         }
         val mySelectionManager = object : CalendarSelectionManager {
@@ -100,7 +128,6 @@ class TodoFragment : Fragment() {
                 // set date to calendar according to position
                 val cal = Calendar.getInstance()
                 cal.time = date
-                //in this example sunday and saturday can't be selected, other item can be selected
                 return when (cal[Calendar.DAY_OF_WEEK]) {
                     else -> true
                 }
@@ -142,7 +169,7 @@ class TodoFragment : Fragment() {
             }
         }
 
-        val singleRowCalendar = fragmentTodoBinding.rowCalendar.apply {
+        singleRowCalendar = fragmentTodoBinding.rowCalendar.apply {
             calendarViewManager = myCalendarViewManager
             calendarChangesObserver = myCalendarChangesObserver
             calendarSelectionManager = mySelectionManager
@@ -150,8 +177,8 @@ class TodoFragment : Fragment() {
             initialPositionIndex = CalendarDay.today().day - 3
 
             init()
-            select(CalendarDay.today().day - 1)
 
+            select(CalendarDay.today().day - 1)
         }
 
         fragmentTodoBinding.rowCalendar
@@ -159,6 +186,16 @@ class TodoFragment : Fragment() {
         transaction.add(R.id.fragment_todo_list, todoListFragment).addToBackStack(null).commit()
 
         return fragmentTodoBinding.root
+    }
+
+
+
+    fun setRowCalendarDayView(day : Int, add : Boolean) {
+        if(todoListFragment.todoAdapter.todoList.size == 0)
+            daysHavingTodo.remove(day)
+        if(add && !daysHavingTodo.contains(day))
+            daysHavingTodo.add(day)
+        singleRowCalendar.adapter?.notifyDataSetChanged()
     }
 
     fun setTextNumberOfTasks(size: Int) {

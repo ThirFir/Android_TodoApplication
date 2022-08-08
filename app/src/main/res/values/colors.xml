@@ -17,10 +17,23 @@
     <color name="lightBlue">#E9F1F0</color>
     <color name="cardRed">#DCBBBB</color>
     <color name="cardLessRed">#ECD6D6</color>
-    <color name="cardPurple">#C9BFDC</color>
-    <color name="cardLessPurple">#D7CFE4</color>
-    <color name="cardBlue">#D1E2E0</color>
-    <color name="cardLessBlue">#E1ECEC</color>
+    <color name="cardOrange">#ECBEAF</color>
+    <color name="cardLessOrange">#ECD1C9</color>
+    <color name="cardYellow">#E6DFA3</color>
+    <color name="cardLessYellow">#ECE8CB</color>
     <color name="cardGreen">#CCDCCC</color>
     <color name="cardLessGreen">#E1EFE1</color>
+    <color name="cardBlue">#D1E2E0</color>
+    <color name="cardLessBlue">#E1ECEC</color>
+    <color name="cardNavy">#96A0DA</color>
+    <color name="cardLessNavy">#C0C5E4</color>
+    <color name="cardPurple">#C9BFDC</color>
+    <color name="cardLessPurple">#D7CFE4</color>
+    <color name="cardMint">#7BC9D3</color>
+    <color name="cardLessMint">#AFDADF</color>
+    <color name="cardBrown">#A5885D</color>
+    <color name="cardLessBrown">#BFAE95</color>
+    <color name="cardGray">#90918C</color>
+    <color name="cardLessGray">#BABCB6</color>
+
 </resources>

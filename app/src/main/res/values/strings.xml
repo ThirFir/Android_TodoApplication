@@ -11,5 +11,6 @@
         DAY INTEGER NOT NULL,
         HOURS INTEGER,
         MINUTES INTEGER,
-        IS_TIME_SET BOOLEAN)</string>
+        IS_TIME_SET BOOLEAN,
+        COLOR INTEGER)</string>
 </resources>

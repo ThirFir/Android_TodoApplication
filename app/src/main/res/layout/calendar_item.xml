@@ -31,4 +31,12 @@
         android:textColor="@color/colorLightGray"
         android:textSize="14sp" />
 
+    <View
+        android:id="@+id/green_dot"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/green_dot"
+        android:visibility="invisible"/>
 </LinearLayout>

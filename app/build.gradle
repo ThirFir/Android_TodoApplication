@@ -55,4 +55,5 @@ dependencies {
     implementation "com.github.skydoves:expandablelayout:1.0.7"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.michalsvec:single-row-calednar:1.0.0'
+    implementation 'com.github.yeon-kyu.HoldableSwipeHandler:HoldableSwipeHandler:1.2.0'
 }

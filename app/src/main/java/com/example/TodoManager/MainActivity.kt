@@ -11,11 +11,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.TodoManager.databinding.ActivityMainBinding
 
 
@@ -28,15 +30,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var todoDB : SQLiteDatabase
     lateinit var cursor : Cursor
 
-    private val todoFragment = TodoFragment()
-    //private val calendarFragment = CalendarFragment()
-    //val tabs = listOf(todoFragment, calendarFragment)
+    val todoFragment = TodoFragment()
 
-    // View Pager2 Class.
-//    inner class MainFragmentPagerAdapter(val fm : FragmentManager, val lc : Lifecycle) : FragmentStateAdapter(fm, lc) {
-//        override fun getItemCount(): Int = tabs.size
-//        override fun createFragment(position: Int): Fragment = tabs[position]
-//    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,16 +50,6 @@ class MainActivity : AppCompatActivity() {
         todoDB.execSQL(resources.getString(R.string.get_todo_tb))
         cursor = todoDB.rawQuery("select * from TODO_TB order by POS_FOR_DATE asc", null)
 
-        //supportFragmentManager.beginTransaction().add(R.id.tab_layout, TodoFragment()).commit()
-//        activityMainBinding.viewPager.adapter = MainFragmentPagerAdapter(supportFragmentManager, lifecycle)      // view pager
-//
-//        TabLayoutMediator(activityMainBinding.tabLayout, activityMainBinding.viewPager) { tab, position ->
-//            tab.icon = when(position) {
-//                0 -> getDrawable(R.drawable.list_icon)
-//                1 -> getDrawable(R.drawable.calendar_icon)
-//                else -> null
-//            }
-//        }.attach()
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.view_fragment_todo, todoFragment).commit()
@@ -96,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
 
             var lastPos = -1
-
             with(cursor) {
                 while (moveToNext()) {
                     if (todoInfo.name == getString(DatabaseConstants.NAME.ordinal)) {
@@ -104,14 +88,12 @@ class MainActivity : AppCompatActivity() {
                         return@registerForActivityResult
                     }
                     lastPos = getInt(DatabaseConstants.POS_FOR_DATE.ordinal)
-
                 }
             }
-            Log.d("Log", "$lastPos")
 
             with(todoInfo) {
-                todoDB.execSQL("insert into TODO_TB (POS_FOR_DATE, NAME, DETAILS, YEAR, MONTH, DAY, HOURS, MINUTES, IS_TIME_SET) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    arrayOf(lastPos + 1, name, details, date.year, date.month, date.day, time.hours, time.minutes, time.isTimeSet))
+                todoDB.execSQL("insert into TODO_TB (POS_FOR_DATE, NAME, DETAILS, YEAR, MONTH, DAY, HOURS, MINUTES, IS_TIME_SET, COLOR) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    arrayOf(lastPos + 1, name, details, date.year, date.month, date.day, time.hours, time.minutes, time.isTimeSet, -1))
             }
 
             if(todoInfo.date.isSameDate(todoFragment.selectedDate)) {
@@ -119,15 +101,10 @@ class MainActivity : AppCompatActivity() {
                 todoFragment.todoListFragment.todoAdapter.notifyItemInserted(todoFragment.todoListFragment.todoAdapter.todoList.size)
                 todoFragment.setTextNumberOfTasks(todoFragment.todoListFragment.todoAdapter.todoList.size)
             }
-//            calendarFragment.refresh(todoInfo.date)
 
-            Toast.makeText(this, "Success!!", Toast.LENGTH_SHORT).show()
+            todoFragment.setRowCalendarDayView(todoInfo.date.day, true)
         }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.toolbar_main, menu)
-//        super.onCreateOptionsMenu(menu)
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_main, menu)
@@ -144,6 +121,8 @@ class MainActivity : AppCompatActivity() {
                         todoDB.execSQL("drop table if exists TODO_TB")
                         todoFragment.todoListFragment.clear()
                         todoFragment.todoListFragment.refresh()
+                        for (day in 1..31)
+                            todoFragment.setRowCalendarDayView(day, false)
                     }
                     .setNegativeButton("CANCEL") { _, _ -> }.show()
             }
@@ -153,5 +132,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        when(ev?.action) {
+
+             MotionEvent.ACTION_DOWN -> {
+                 val v : ConstraintLayout? = activityMainBinding.mainActivityLayout.findViewById(R.id.menu_bubble_layout)
+                 if (v != null) {
+                     val absoluteLocation = intArrayOf(0, 0)
+                     v.getLocationOnScreen(absoluteLocation)
+                     if (ev.rawX < absoluteLocation[0] || ev.rawX > absoluteLocation[0] + v.width
+                         || ev.rawY < absoluteLocation[1] || ev.rawY > absoluteLocation[1] + v.height)
+                         activityMainBinding.mainActivityLayout.removeView(v)
+                     Log.d("Log", "found")
+                 }
+             }
+        }
+
+        return super.dispatchTouchEvent(ev)
     }
 }
